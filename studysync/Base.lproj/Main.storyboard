@@ -8,10 +8,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--LoginVC-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="studysync" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="LoginVC" id="BYZ-38-t0r" customClass="LoginVC" customModule="studysync" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -41,6 +41,9 @@
                                 <rect key="frame" x="20" y="395" width="280" height="34.5"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Log in"/>
+                                <connections>
+                                    <action selector="loginDidPress:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7OE-9P-HX5"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="OR" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vkW-XF-raM">
                                 <rect key="frame" x="20" y="439.5" width="280" height="20.5"/>
@@ -58,9 +61,15 @@
                                 <rect key="frame" x="20" y="495.5" width="280" height="34.5"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Sign up instead"/>
+                                <connections>
+                                    <segue destination="Ubo-Qd-BC0" kind="show" id="ppB-Qe-8Cg"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Forgot Password ?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="62e-HU-yMi">
                                 <rect key="frame" x="188" y="354" width="112" height="16"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" button="YES" staticText="YES"/>
+                                </accessibility>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -83,6 +92,9 @@
                                 <rect key="frame" x="163.5" y="138.5" width="136.5" height="34.5"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Sign Up"/>
+                                <connections>
+                                    <segue destination="Ubo-Qd-BC0" kind="show" id="i7Q-Wr-P0B"/>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -120,6 +132,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="crc-NK-zMS"/>
+                    <connections>
+                        <outlet property="emailTextField" destination="K7i-S3-GLT" id="Aux-i6-ijF"/>
+                        <outlet property="forgotPasswordDidPress" destination="62e-HU-yMi" id="Y0L-5c-Lfd"/>
+                        <outlet property="passwordTextField" destination="xs4-RT-tpS" id="jGi-oK-Hmw"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -137,16 +154,17 @@
                     <nil name="viewControllers"/>
                     <connections>
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="PNs-2E-4cv"/>
+                        <segue destination="Ubo-Qd-BC0" kind="show" id="W2K-OQ-sfp"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MtS-5r-FgM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="52.5" y="-34.859154929577464"/>
         </scene>
-        <!--View Controller-->
+        <!--SignupVC-->
         <scene sceneID="IvM-jN-BrA">
             <objects>
-                <viewController id="Ubo-Qd-BC0" customClass="ViewController" customModule="studysync" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="SignupVC" id="Ubo-Qd-BC0" customClass="SignupVC" customModule="studysync" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Op2-gQ-UZg">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -165,6 +183,9 @@
                                 <rect key="frame" x="20" y="62" width="140" height="34.5"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Log in"/>
+                                <connections>
+                                    <action selector="loginButtonDidPress:" destination="Ubo-Qd-BC0" eventType="touchUpInside" id="9Mc-7K-ZWa"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sign up to StudySync" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qpn-gu-zMd">
                                 <rect key="frame" x="20" y="141.5" width="280" height="30"/>
@@ -176,6 +197,9 @@
                                 <rect key="frame" x="20" y="391.5" width="280" height="34.5"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Sign Up"/>
+                                <connections>
+                                    <action selector="signUpButtonDidPress:" destination="Ubo-Qd-BC0" eventType="touchUpInside" id="mav-2l-VJX"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Don't have an account?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c9Q-sq-UI5">
                                 <rect key="frame" x="50" y="486.5" width="220" height="20.5"/>
@@ -193,6 +217,9 @@
                                 <rect key="frame" x="50" y="517" width="220" height="34.5"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Sign In"/>
+                                <connections>
+                                    <action selector="signinButtonDidPress:" destination="Ubo-Qd-BC0" eventType="touchUpInside" id="ZbC-Jv-MJb"/>
+                                </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="13" translatesAutoresizingMaskIntoConstraints="NO" id="6PS-bl-5gJ">
                                 <rect key="frame" x="20" y="196.5" width="280" height="175"/>
@@ -271,12 +298,71 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="fcZ-KV-FO6"/>
+                    <connections>
+                        <outlet property="fullNameTextField" destination="dt4-Yi-nPl" id="InV-tq-bSb"/>
+                        <outlet property="passwordTextField" destination="0DH-Ie-tIx" id="2Jf-06-zie"/>
+                        <outlet property="repeatPasswordTextField" destination="zCh-OH-O52" id="9mZ-7h-amf"/>
+                        <outlet property="uniEmailTextField" destination="qkN-rG-NWE" id="aHy-Cv-GAA"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZNc-h6-eUf" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1929" y="-13"/>
         </scene>
+        <!--Item 2-->
+        <scene sceneID="qpJ-R1-MXp">
+            <objects>
+                <viewController id="FH1-3u-WUf" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="u38-Du-KTV">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="uHk-AN-7Dg"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Item 2" id="20e-l1-R6s"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vik-p9-jkl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3835" y="370"/>
+        </scene>
+        <!--Item 1-->
+        <scene sceneID="SBb-TS-BuR">
+            <objects>
+                <viewController id="8BC-5P-pMJ" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Kbq-FJ-icL">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="7Fd-52-lpK"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Item 1" id="6vL-ms-e9q"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dhZ-gO-Xov" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3835" y="-240"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="WGi-RQ-d3v">
+            <objects>
+                <tabBarController storyboardIdentifier="HomeVC" id="20d-wB-xDz" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="pHD-wI-UO7">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="8BC-5P-pMJ" kind="relationship" relationship="viewControllers" id="lu9-B7-M3H"/>
+                        <segue destination="FH1-3u-WUf" kind="relationship" relationship="viewControllers" id="R50-rQ-bHm"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pVT-SE-Pvi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2859" y="64"/>
+        </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="ppB-Qe-8Cg"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
