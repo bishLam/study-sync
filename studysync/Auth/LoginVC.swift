@@ -13,6 +13,8 @@ class LoginVC: UIViewController {
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     
+    //repository for the app
+    var repository = Repository()
     
     
     
@@ -22,6 +24,18 @@ class LoginVC: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+//        repository.findUserByEmail(email: "13209@ait.nsw.edu.au") { user, succeess in
+//            print("\(user?.name) - \(user?.email)")
+//        }
+//        repository.listAllPostsByUser(userID: "13209@gmail.com") { posts, success in
+//            let allposts = posts ?? []
+//            
+//            allposts.forEach { post in
+//                print(post.description)
+//            }
+//        }
+        
+
     }
     
     @IBAction func loginDidPress(_ sender: UIButton) {
