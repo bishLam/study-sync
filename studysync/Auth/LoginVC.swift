@@ -12,7 +12,7 @@ class LoginVC: UIViewController {
     //here we will define all the UI components
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
-    
+    @IBOutlet weak var signupButton: UIButton!
     //repository for the app
     var repository = Repository()
     
@@ -22,18 +22,10 @@ class LoginVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-//        repository.findUserByEmail(email: "13209@ait.nsw.edu.au") { user, succeess in
-//            print("\(user?.name) - \(user?.email)")
-//        }
-//        repository.listAllPostsByUser(userID: "13209@gmail.com") { posts, success in
-//            let allposts = posts ?? []
-//            
-//            allposts.forEach { post in
-//                print(post.description)
-//            }
-//        }
+        
+        signupButton.layer.cornerRadius = 10
+//        signupButton.layer.borderWidth = 1
+        signupButton.layer.masksToBounds = true
         
 
     }
@@ -77,6 +69,15 @@ class LoginVC: UIViewController {
         
         
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        //hide the view in this VC
+        self.navigationController?.tabBarController?.isTabBarHidden = true
+    }
+    
+    
     
     @IBOutlet weak var forgotPasswordDidPress: UILabel!
     
