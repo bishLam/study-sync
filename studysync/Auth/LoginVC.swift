@@ -74,7 +74,14 @@ class LoginVC: UIViewController {
         super.viewWillAppear(animated)
         
         //hide the view in this VC
-        self.navigationController?.tabBarController?.isTabBarHidden = true
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        //show the nav bar in others
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
     

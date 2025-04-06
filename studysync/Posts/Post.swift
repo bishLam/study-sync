@@ -9,6 +9,7 @@ import Foundation
 import FirebaseFirestore
 
 class Post {
+    var postID:String!
     var description: String
     var postedTime: Timestamp
     var userId: String
@@ -19,12 +20,13 @@ class Post {
         self.userId = userId
     }
     
-    convenience init(dictionary: [String:Any]) {
+    convenience init(postID:String, dictionary: [String:Any]) {
         
         self.init(description: dictionary["description"] as? String ?? "",
                   postedTime: dictionary["postedTime"] as? Timestamp ?? Timestamp(),
                   userId: dictionary["posterUID"] as? String ?? "")
-
+        self.postID = postID
     }
+    
 }
 

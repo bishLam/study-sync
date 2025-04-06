@@ -6,8 +6,9 @@
 //
 
 import UIKit
+import FirebaseAuth
 
-class ProfileVC: UIViewController {
+class AccountVC: UIViewController {
     @IBOutlet weak var editProfileIcon: UIImageView!
     @IBOutlet weak var profilePictureImageView: UIImageView!
     @IBOutlet weak var fullNameLabel: UILabel!
@@ -21,7 +22,18 @@ class ProfileVC: UIViewController {
         
         editProfileIcon.addTapGestureRecognizer {
             print("Image Tapped")
-            self.performSegue(withIdentifier: "editProfileSegue", sender: "")
+            self.performSegue(withIdentifier: "editProfileSegue", sender: self)
+        }
+        
+        //logout user when pressed
+        logoutLabel.isUserInteractionEnabled = true
+        logoutIcon.isUserInteractionEnabled = true
+        logoutLabel.addTapGestureRecognizer {
+            self.logout()
+            
+        }
+        logoutIcon.addTapGestureRecognizer {
+            self.logout()
         }
     }
     
@@ -55,5 +67,18 @@ class ProfileVC: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    func logout() -> Void {
+        do {
+            try Auth.auth().signOut();
+            let loginVC = self.storyboard?.instantiateViewController(identifier: "LoginVC") as? UIViewController
+            self.view.window?.rootViewController = loginVC
+            self.view.window?.makeKeyAndVisible()
+            
+        }
+        catch let signoutError as NSError{
+            showErrorMessage(title: "Error", message: "We could not sign you out at this time. Please try again later. \(signoutError.localizedDescription)")
+        }
+    }
 
 }

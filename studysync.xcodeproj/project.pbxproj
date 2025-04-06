@@ -7,15 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2A1D64162D9D4AEB0079D333 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2A1D64152D9D4AEB0079D333 /* GoogleService-Info.plist */; };
 		2A583D542D841B80003253EE /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 2A583D532D841B80003253EE /* FirebaseAuth */; };
 		2A583D562D841B80003253EE /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 2A583D552D841B80003253EE /* FirebaseFirestore */; };
 		2A583D582D841B80003253EE /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 2A583D572D841B80003253EE /* FirebaseMessaging */; };
 		2A583D5A2D841B80003253EE /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 2A583D592D841B80003253EE /* FirebaseStorage */; };
-		2A583D6A2D850260003253EE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2A583D692D850260003253EE /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		2A583D692D850260003253EE /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		2A1D64152D9D4AEB0079D333 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2AF17B992D7BDE6900C5AF06 /* studysync.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = studysync.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -58,7 +58,7 @@
 		2AF17B902D7BDE6900C5AF06 = {
 			isa = PBXGroup;
 			children = (
-				2A583D692D850260003253EE /* GoogleService-Info.plist */,
+				2A1D64152D9D4AEB0079D333 /* GoogleService-Info.plist */,
 				2AF17B9B2D7BDE6900C5AF06 /* studysync */,
 				2AF17B9A2D7BDE6900C5AF06 /* Products */,
 			);
@@ -144,7 +144,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2A583D6A2D850260003253EE /* GoogleService-Info.plist in Resources */,
+				2A1D64162D9D4AEB0079D333 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

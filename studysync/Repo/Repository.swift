@@ -142,13 +142,58 @@ class Repository {
                 
                 userPosts = posts.compactMap({ document -> Post? in
                     let data = document.data()
-                    return Post(dictionary: data)
+                    return Post(postID: document.documentID , dictionary: data)
                 })
                 completion(userPosts, false)
             }
             
             
         }
+    }
+    
+    func getUserUniversityByReference(universityReference: DocumentReference, completion: @escaping (University?, Bool) -> Void){
+        let uniRef = db.document(universityReference.path)
+        
+        uniRef.getDocument { snapshot, error in
+            if let error = error {
+                completion(nil, true)
+                return
+            }
+            
+            let data = snapshot?.data();
+            //this data of university is in dictionary format so we need to convert it into the university class
+            
+            guard let data = data else{
+                completion(nil, true)
+                return
+            }
+            let university = University(dictionary: data);
+            completion(university, false)
+            
+        }
+    }
+    
+    func listAllCommentsByPost(postID:String, completion: @escaping([Comment]?, Bool) -> Void){
+        
+        var comments = [Comment]()
+        let postRef = db.collection("universities").document("AIT").collection("groups").document("swift").collection("posts").document(postID).collection("comments")
+        
+        postRef.addSnapshotListener { snapshot, error in
+            guard let snapshot = snapshot else{
+                return completion(nil, true)
+            }
+            
+            let commentDictionaryArray = snapshot.documents
+            
+            comments = commentDictionaryArray.compactMap { document -> Comment? in
+                let comment = document.data()
+                return Comment(commentID:document.documentID , dictionary: comment)
+            }
+            completion(comments, false)
+        }
+        
+        
+        
     }
     
     }

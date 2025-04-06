@@ -14,8 +14,16 @@ class HomeTVC: UITableViewController {
     var userPosts = [Post]()
     var service = Repository()
     var currentUserID = Auth.auth().currentUser?.email ?? ""
+    @IBOutlet weak var connectedCollegeLabel: UILabel!
     @IBOutlet weak var welcomeLabel: UILabel!
     @IBOutlet var postsTableView: UITableView!
+    
+    //this variable are to send the value into the next screen when we press on each of the post
+    var posterName: String!
+    var postedTime: String!
+    var posterRole: String!
+    var postText:String!
+    var postID:String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,7 +39,19 @@ class HomeTVC: UITableViewController {
                 return
             }
             self.welcomeLabel.text = "Welcome \(user.name)"
+            self.connectedCollegeLabel.text = "You are connected to \(user.university)"
+            self.service.getUserUniversityByReference(universityReference: user.university) { university, error in
+                guard let university = university else{
+                    print("No university found");
+                    return
+            }
+                self.connectedCollegeLabel.text = "You are connected with \(university.universityName)"
+            }
         }
+        
+        
+        
+        
         
         
         service.listAllPostsByUser(userID: currentUserID) { posts, error in
@@ -65,47 +85,48 @@ class HomeTVC: UITableViewController {
 
         // Configure the cell...
         let post = userPosts[indexPath.row]
+
+        
         //display poster full name
-        var posterName = "Unknown"
-        var posterRole = "Unknown"
         service.findUserByEmail(email: post.userId) { user, success in
             guard let user = user else{
                 print("No user found")
                 return
             }
-            posterName = user.name
-            posterRole = user.role
-            cell.posterNameLabel.text = posterName
-            cell.roleLabel.text = posterRole
+            self.posterName = user.name
+            self.posterRole = user.role
+            cell.posterNameLabel.text = self.posterName
+            cell.roleLabel.text = self.posterRole
         }
 
         cell.questionLabel.text = post.description //displays the description
-        let timeText:String
+        self.postText = post.description
+        self.postID = post.postID
         let currentTime = Timestamp(date: Date())
         let secondsDifference = currentTime.seconds - post.postedTime.seconds
         
         //display just now for the first 10 minutes of posting
         if secondsDifference < 600 {
-            timeText = "Just Now"
+            self.postedTime = "Just Now"
         }
         
         else if secondsDifference > 600 && secondsDifference < 3600  {
             let minutes:Int64 = secondsDifference / 60
-            timeText = "\(minutes) minutes ago"
+            self.postedTime  = "\(minutes) minutes ago"
         }
         
         else if secondsDifference > 3600 && secondsDifference < 86400 {
             let hours:Int64 = secondsDifference / 3600
-            timeText = "\(hours) days ago"
+            self.postedTime  = "\(hours) days ago"
         }
         else{
             let days:Int64 = secondsDifference / 86400
-            timeText = "\(days) days ago"
+            self.postedTime  = "\(days) days ago"
         }
         
         
         //displays the time text accordingly
-        cell.timeLabel.text = timeText
+        cell.timeLabel.text = self.postedTime
         
 
         return cell
@@ -124,6 +145,13 @@ class HomeTVC: UITableViewController {
         //show the navigation controller in other screens
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
+    
+//    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        self.postID = userPosts[indexPath.row].postID
+//        performSegue(withIdentifier: "goToCommentsSegue", sender: self)
+//    }
+//    
+
     
 //    override func viewWillDisappear(_ animated: Bool) {
 //        super.viewWillDisappear(animated)
@@ -167,14 +195,20 @@ class HomeTVC: UITableViewController {
     }
     */
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
+
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if segue.identifier == "goToCommentsSegue"{
+//            let destinationVC = segue.destination as? CommentsTVC
+//            destinationVC?.posterName = posterName
+//            destinationVC?.postedTime = postedTime
+//            destinationVC?.posterRole = posterRole
+//            destinationVC?.postID = postID
+//            destinationVC?.postText = postText
+//        }
+//    }
 
 }
