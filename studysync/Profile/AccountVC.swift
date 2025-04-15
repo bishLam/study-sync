@@ -17,8 +17,30 @@ class AccountVC: UIViewController {
     @IBOutlet weak var logoutLabel: UILabel!
     @IBOutlet weak var logoutIcon: UIImageView!
     
+    var currentUser:User!
+    var currentUserID = Auth.auth().currentUser?.email ?? ""
+    var service = Repository()
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        service.findUserByEmail(email: currentUserID) { user, success in
+            guard let user = user else{
+                print("No user found")
+                return
+            }
+            self.currentUser = user
+            self.fullNameLabel.text = user.name
+            self.userEmailLabel.text = user.email
+            
+            
+            //for the image
+            if user.pictureName != ""{
+                self.profilePictureImageView.image = UIImage(named: user.pictureName)
+                self.profilePictureImageView.layer.cornerRadius = self.profilePictureImageView.frame.size.width / 2
+            }
+        }
         
         editProfileIcon.addTapGestureRecognizer {
             print("Image Tapped")
@@ -26,11 +48,8 @@ class AccountVC: UIViewController {
         }
         
         //logout user when pressed
-        logoutLabel.isUserInteractionEnabled = true
-        logoutIcon.isUserInteractionEnabled = true
         logoutLabel.addTapGestureRecognizer {
             self.logout()
-            
         }
         logoutIcon.addTapGestureRecognizer {
             self.logout()
@@ -58,27 +77,44 @@ class AccountVC: UIViewController {
 //    }
     
 
-    /*
+
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
+        
+        if segue.destination is ShowProfileVC {
+            let showProfileVC = segue.destination as! ShowProfileVC
+            showProfileVC.currentUser = currentUser
+        }
     }
-    */
+
     
     func logout() -> Void {
-        do {
-            try Auth.auth().signOut();
-            let loginVC = self.storyboard?.instantiateViewController(identifier: "LoginVC") as? UIViewController
-            self.view.window?.rootViewController = loginVC
-            self.view.window?.makeKeyAndVisible()
-            
+        
+        let alertController = UIAlertController(title: "Are you sure you want to log out from the app. You cannot reverse this action", message: "", preferredStyle: .alert)
+        let logoutAction = UIAlertAction(title: "Log out", style: .destructive) { action in
+            do {
+                try Auth.auth().signOut();
+                let loginVC = self.storyboard?.instantiateViewController(identifier: "LoginVC") as? UIViewController
+                self.view.window?.rootViewController = loginVC
+                self.view.window?.makeKeyAndVisible()
+                
+            }
+            catch let signoutError as NSError{
+                self.showErrorMessage(title: "Error", message: "We could not sign you out at this time. Please try again later. \(signoutError.localizedDescription)")
+            }
         }
-        catch let signoutError as NSError{
-            showErrorMessage(title: "Error", message: "We could not sign you out at this time. Please try again later. \(signoutError.localizedDescription)")
-        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        alertController.addAction(logoutAction)
+        alertController.addAction(cancelAction)
+        present(alertController, animated: true)
+        
+        
+
     }
 
 }

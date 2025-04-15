@@ -28,5 +28,43 @@ class Post {
         self.postID = postID
     }
     
+    func toDictionary() -> [String:Any]{
+        var dictionary = [String:Any]()
+        
+        dictionary["description"] = self.description
+        dictionary["postedTime"] = self.postedTime
+        dictionary["posterUID"] = self.userId
+        
+        return dictionary
+    }
+    
+    func setTimeFormat() -> String{
+        let currentTime = Timestamp(date: Date())
+        let secondsDifference = currentTime.seconds - self.postedTime.seconds
+        
+        //display just now for the first 10 minutes of posting
+        var postedTime:String!
+        if secondsDifference < 600 {
+           postedTime = "Just Now"
+        }
+        
+        else if secondsDifference > 600 && secondsDifference < 3600  {
+            let minutes:Int64 = secondsDifference / 60
+            postedTime  = "\(minutes) minutes ago"
+        }
+        
+        else if secondsDifference > 3600 && secondsDifference < 86400 {
+            let hours:Int64 = secondsDifference / 3600
+            postedTime  = "\(hours) hours ago"
+        }
+        else{
+            let days:Int64 = secondsDifference / 86400
+            postedTime  = "\(days) days ago"
+        }
+        
+        return postedTime
+        
+    }
+    
 }
 

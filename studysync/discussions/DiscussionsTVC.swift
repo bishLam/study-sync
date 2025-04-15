@@ -10,22 +10,25 @@ import FirebaseAuth
 
 class DiscussionsTVC: UITableViewController {
     let service = Repository()
-    let userID = Auth.auth().currentUser?.email ?? ""
+    let currentUserID = Auth.auth().currentUser?.email ?? ""
+    var currentUser: User!
+    
+    var selectedPost:Post!
     
     @IBOutlet weak var postContainerView: UIView!
     var posts = [Post]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
-
+        service.findUserByEmail(email: currentUserID) { user, success in
+            guard let user = user else{
+                print("No user found")
+                return
+            }
+            self.currentUser = user
+        }
         
-        service.listAllPostsByUser(userID: userID) { posts, error in
+        service.listAllPostsByUser(userID: currentUserID) { posts, error in
             if error {
                 print("Error fetching posts: \(error)")
                 return
@@ -56,14 +59,80 @@ class DiscussionsTVC: UITableViewController {
         // Configure the cell...
         
         let post = posts[indexPath.row]
-        cell.posterNameLabel.text = post.userId
         cell.questionLabel.text = post.description
+        cell.timeLabel.text = post.setTimeFormat()
+
+        //find details about the user and set it
+        //display poster full name
+        service.findUserByEmail(email: post.userId) { user, success in
+            guard let user = user else{
+                print("No user found")
+                return
+            }
+            cell.posterNameLabel.text = user.name
+            cell.roleLabel.text = user.role
+        }
+        
+        //get totalLikes
+        service.getLikesInAPost(postID: post.postID, userRef: currentUser.university) { likes, error in
+            guard error == nil else{
+                //                print("no liked found 1")
+                return
+            }
+            guard likes == likes else{
+                //                print("no liked found")
+                return
+            }
+            
+            //likes equals nil means 0 likes in the post
+            if likes == nil {
+                cell.likeCount.text = "0"
+            }
+            else{
+                cell.likeCount.text = "\(likes!.count)"
+            }
+            
+        }
+        
+        //getTotalComments
+        service.listAllCommentsByPost(postID: post.postID) { receivedComments, error in
+            
+            if let receivedComments = receivedComments{
+                cell.commentsCountLabel.text = "\(receivedComments.count)"
+            }
+        }
         cell.postContainerView.layer.cornerRadius = 10
         cell.postContainerView.layer.borderColor = UIColor.lightGray.cgColor
         cell.postContainerView.layer.borderWidth = 1
         cell.postContainerView.layer.masksToBounds = true
+        
+        cell.likesStackView.addTapGestureRecognizer {
+            self.service.toggleLikeInAPost(postID: post.postID, userRef: self.currentUser.university, userID: self.currentUser.userID) { success, status,  error in
+                if success {
+                    if status == "added"{
+                        cell.likeButton.image = UIImage(systemName: "arrowshape.up.fill")
+                        
+                    }
+                    
+                    else if status == "removed" {
+                        cell.likeButton.image = UIImage(systemName: "arrowshape.up")
+                    }
+                    return
+                }
+                if let error = error {
+                    print(error.localizedDescription)
+                }
+                
+                
+            }
+        }
 
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        selectedPost = posts[indexPath.row]
+        return indexPath
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -124,14 +193,20 @@ class DiscussionsTVC: UITableViewController {
     }
     */
 
-    /*
+ 
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
+        
+        if let commentsViewController = segue.destination as? CommentsTVC {
+            print(self.selectedPost.description);
+            commentsViewController.receivedPost = self.selectedPost
+            
+        }
     }
-    */
+
 
 }

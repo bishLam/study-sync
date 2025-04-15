@@ -93,3 +93,12 @@ extension UIView {
     }
 
 }
+
+extension UIImageView{
+    func setLocalImage(imageName: String?){
+        if imageName != nil && imageName != ""{
+            self.image = UIImage(named: imageName!)
+            self.layer.cornerRadius = self.frame.size.width / 2
+        }
+    }
+}

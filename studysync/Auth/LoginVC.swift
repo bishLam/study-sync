@@ -13,6 +13,11 @@ class LoginVC: UIViewController {
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var signupButton: UIButton!
+    
+    //spinner while verifying the data
+    let spinner = UIActivityIndicatorView(style: .large)
+    
+    
     //repository for the app
     var repository = Repository()
     
@@ -22,6 +27,10 @@ class LoginVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        spinner.color = .black
+        spinner.hidesWhenStopped = true
+        spinner.center = view.center
         
         signupButton.layer.cornerRadius = 10
 //        signupButton.layer.borderWidth = 1
@@ -33,27 +42,36 @@ class LoginVC: UIViewController {
     @IBAction func loginDidPress(_ sender: UIButton) {
         //here we can check if the login details has been filled by the user or not
         
+        //set the spinner to loading
+        self.view.addSubview(spinner)
+        self.spinner.startAnimating()
+        self.view.isUserInteractionEnabled = false
+        
         //check if all the values has been passed in and are in correct format by the user
         guard !emailTextField.text.isBlank && emailTextField.text.isValidEmail
         , let email = emailTextField.text
         else{
+            self.stopSpinner()
             showErrorMessage(title: "Error", message: "Email is not provided in correct format")
             return
         }
         
         guard !passwordTextField.text.isBlank, let password = passwordTextField.text else{
+            self.stopSpinner()
             showErrorMessage(title: "Error", message: "Password cannot be empty")
             return
         }
         
         Auth.auth().signIn(withEmail: email, password: password) { AuthDataResult, error in
             guard error == nil else{
+                self.stopSpinner()
                 self.showErrorMessage(title: "Error", message: "\(error!.localizedDescription)")
                 return
             }
             
             //verify if the email confirmation has been finished
             guard Auth.auth().currentUser?.isEmailVerified == true else{
+                self.stopSpinner()
                 self.showErrorMessage(title: "Pending error verification", message: "We have sent you an email to verify your account. Please verify your email before logging in")
                 return
             }
@@ -63,6 +81,9 @@ class LoginVC: UIViewController {
             self.view.window?.rootViewController = HomeVC
             self.view.window?.makeKeyAndVisible()
             
+            
+            self.stopSpinner()
+
             
             
         }
@@ -97,5 +118,11 @@ class LoginVC: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    
+    func stopSpinner (){
+        self.view.isUserInteractionEnabled = true
+        self.spinner.stopAnimating()
+    }
 
 }

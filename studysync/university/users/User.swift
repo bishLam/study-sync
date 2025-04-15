@@ -14,23 +14,26 @@ class User {
     var role:String
     var university: DocumentReference
 	var groups : [DocumentReference]
+    var pictureName: String
     
     //default initialiser called when we create a user. ID will be created by firestore
-    init(name: String, email: String, role:String,  university: DocumentReference, groups: [DocumentReference]) {
+    init(name: String, email: String, role:String,  university: DocumentReference, groups: [DocumentReference], pictureName: String) {
         self.name = name
         self.email = email
         self.university = university
         self.groups = groups
         self.role = role
+        self.pictureName = pictureName
     }
     
     //This initialiser is used when we query the database
-    convenience init(id: String, name: String, email: String, role:String, university: DocumentReference, groups: [DocumentReference]) {
+    convenience init(id: String, name: String, email: String, role:String, university: DocumentReference, groups: [DocumentReference], pictureName: String) {
         self.init(name: name,
                   email: email,
                   role:role,
                   university: university,
-                  groups: groups)
+                  groups: groups,
+                  pictureName: pictureName)
         self.userID = id
     }
     
@@ -40,7 +43,8 @@ class User {
                       email: "",
                       role:"",
                       university: Firestore.firestore().collection("users").document("test 1"),
-                      groups: [DocumentReference]()
+                      groups: [DocumentReference](),
+                      pictureName: ""
 																)
     }
     
@@ -52,7 +56,8 @@ class User {
                   email: dictionary["email"] as? String ?? "",
                   role:dictionary["role"] as? String ?? "",
                   university: dictionary["university"] as? DocumentReference ?? Firestore.firestore().collection("users").document("test 1"),
-                  groups: dictionary["groups"] as? [DocumentReference] ?? [DocumentReference]()
+                  groups: dictionary["groups"] as? [DocumentReference] ?? [DocumentReference](),
+                  pictureName: dictionary["pictureName"] as? String ?? ""
 												)
     }
 				
@@ -65,6 +70,7 @@ class User {
                                 userDictionary["role"] = self.role
 								userDictionary["university"] = self.university
 								userDictionary["groups"] = self.groups
+                                userDictionary["pictureName"] = self.pictureName
 								
 								return userDictionary
 				}

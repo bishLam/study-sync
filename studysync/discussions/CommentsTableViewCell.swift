@@ -13,5 +13,7 @@ class CommentsTableViewCell: UITableViewCell {
     @IBOutlet weak var commenterRole: UILabel!
     @IBOutlet weak var commenterImage: UIImageView!
     @IBOutlet weak var totalCommentLikes: UILabel!
+    @IBOutlet weak var likeStackView: UIStackView!
+    @IBOutlet weak var likeImageView: UIImageView!
     
 }

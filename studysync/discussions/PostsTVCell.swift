@@ -19,6 +19,8 @@ class PostsTVCell: UITableViewCell {
     @IBOutlet weak var likeCount: UILabel!
     @IBOutlet weak var commentsButton: UIImageView!
     @IBOutlet weak var commentsCountLabel: UILabel!
+    @IBOutlet weak var likesStackView: UIStackView!
+    
     
     @IBOutlet weak var postContainerView: UIView!
     

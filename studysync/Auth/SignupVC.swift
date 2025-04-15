@@ -29,17 +29,15 @@ class SignupVC: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        print("We are runnig the signup view controller now")
+//        print("We are runnig the signup view controller now")
         
-        var university = University(universityID: "TEST I", universityName: "Test 1", universityLocation: "123 Street", registeredDate: Timestamp(date: Date()))
-        repository.addUniversity(university: university) { success, error in
-            if success == false {
-                print("Error while adding the data. \(error?.localizedDescription)")
-                return
-            }
-            
-            print("now check the database you stupid")
-        }
+//        var university = University(universityID: "TEST I", universityName: "Test 1", universityLocation: "123 Street", registeredDate: Timestamp(date: Date()))
+//        repository.addUniversity(university: university) { success, error in
+//            if success == false {
+//                print("Error while adding the data. \(error?.localizedDescription)")
+//                return
+//            }
+//        }
         
         
     }
@@ -99,7 +97,7 @@ class SignupVC: UIViewController {
                 
                 //here we can add the user to the database
                 let universityReference = Firestore.firestore().collection("university").document("AIT")
-                let user = User.init(id: email, name: fullName, email: email, role:role,  university: universityReference, groups: [DocumentReference]() )
+                let user = User.init(id: email, name: fullName, email: email, role:role,  university: universityReference, groups: [DocumentReference](), pictureName: "" )
                 self.repository.addUser(user: user) { authResult, error in
                     guard authResult else{
                         self.showErrorMessage(title: "Something went wrong", message: "We could not add you to our database. Please try again later")
